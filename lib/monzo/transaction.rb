@@ -1,7 +1,51 @@
 module Monzo
   class Transaction
 
+    attr_reader :id, :created, :description, :amount, :currency,
+      :merchant, :notes, :metadata, :account_balance, :attachments,
+      :category, :is_load, :settled, :local_amount, :local_currency,
+      :updated, :account_id, :counterparty, :scheme, :dedupe_id,
+      :originator, :include_in_spending
+
     def initialize(params)
+      @id = params["id"]
+      @created = params["created"]
+      @description = params["description"]
+      @amount = params["amount"]
+      @currency = params["currency"]
+      @merchant = params["merchant"]
+      @notes = params["notes"]
+      @metadata = params["metadata"]
+      @account_balance = params["account_balance"]
+      @attachments = params["attachments"]
+      @category = params["category"]
+      @is_load = params["is_load"]
+      @settled = params["settled"]
+      @local_amount = params["local_amount"]
+      @local_currency = params["local_currency"]
+      @updated = params["updated"]
+      @account_id = params["account_id"]
+      @counterparty = params["counterparty"]
+      @scheme = params["scheme"]
+      @dedupe_id = params["dedupe_id"]
+      @originator = params["originator"]
+      @include_in_spending = params["include_in_spending"]
+    end
+
+    def self.find(transaction_id, options = {})
+      client = Monzo.client
+      response = client.get("/transactions/#{transaction_id}", options)
+      JSON.parse(response.body)["transaction"].tap do |item|
+        Monzo::Transaction.new(item)
+      end
+    end
+
+    def self.all(account_id)
+      client = Monzo.client
+      response = client.get("/transactions", :account_id => account_id)
+      JSON.parse(response.body)["transactions"].map do |item|
+        Monzo::Transaction.new(item)
+      end
     end
 
   end
