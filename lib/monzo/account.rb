@@ -9,5 +9,9 @@ module Monzo
       @created = params[:created]
     end
 
+    def self.all
+      client = Monzo::client
+      client.get("/accounts")
+    end
   end
 end

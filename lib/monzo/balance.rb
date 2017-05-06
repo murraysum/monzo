@@ -9,5 +9,12 @@ module Monzo
       @spend_today = params[:spend_today]
     end
 
+    def self.find(account_id)
+      client = Monzo::client
+      client.get("/balance", {:account_id => account_id})
+    end
+
+    private
+
   end
 end
