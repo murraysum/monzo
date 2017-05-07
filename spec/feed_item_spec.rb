@@ -16,12 +16,12 @@ describe Monzo::FeedItem do
 
     it "should have params" do
       expect(@feed_item.params).to eql({
-        "title" => "My custom item",
-        "image_url" => "http://www.example.com/image.png",
-        "background_color" => "#FCF1EE",
-        "body_color" => "#FCF1E1",
-        "title_color" => "#333",
-        "body" => "Some body text to display"
+        :title => "My custom item",
+        :image_url => "http://www.example.com/image.png",
+        :background_color => "#FCF1EE",
+        :body_color => "#FCF1E1",
+        :title_color => "#333",
+        :body => "Some body text to display"
       })
     end
 
