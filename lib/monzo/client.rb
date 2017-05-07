@@ -40,6 +40,20 @@ module Monzo
       response
     end
 
+    def delete(path, options = {})
+      uri = build_uri(path, options = {})
+
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+
+      request = Net::HTTP::Delete.new(uri.request_uri)
+      request["Authorization"] = "Bearer #{access_token}"
+
+      response = http.request(request)
+      puts response.body
+      response
+    end
+
     def build_uri(path, options)
       uri = URI.join(host, path)
       uri.query = build_query(options)
