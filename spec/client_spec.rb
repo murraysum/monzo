@@ -21,6 +21,10 @@ describe Monzo::Client do
     skip "implement"
   end
 
+  it "#patch" do
+    skip "implement"
+  end
+
   it "#delete" do
     skip "implement"
   end

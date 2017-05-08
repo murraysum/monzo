@@ -33,21 +33,30 @@ module Monzo
     end
 
     def self.find(transaction_id, options = {})
-      client = Monzo.client
-      response = client.get("/transactions/#{transaction_id}", options)
+      response = Monzo.client.get("/transactions/#{transaction_id}", options)
       json = JSON.parse(response.body, :symbolize_names => true)
 
       Monzo::Transaction.new(json[:transaction])
     end
 
     def self.all(account_id)
-      client = Monzo.client
-      response = client.get("/transactions", :account_id => account_id)
+      response = Monzo.client.get("/transactions", :account_id => account_id)
       json = JSON.parse(response.body, :symbolize_names => true)
 
       json[:transactions].map do |item|
         Monzo::Transaction.new(item)
       end
+    end
+
+    def self.create_annotation(transaction_id, metadata)
+      data = {}
+      metadata.each do |k, v|
+        data["metadata[#{k.to_s}]"] = v
+      end
+      response = Monzo.client.patch("/transactions/#{transaction_id}", data, {})
+      json = JSON.parse(response.body, :symbolize_names => true)
+
+      Monzo::Transaction.new(json[:transaction])
     end
 
   end

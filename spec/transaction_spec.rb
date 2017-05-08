@@ -106,4 +106,10 @@ describe Monzo::Transaction do
       skip "implement"
     end
   end
+
+  context ".create_annotation" do
+    it "has specs" do
+      skip "implement"
+    end
+  end
 end
