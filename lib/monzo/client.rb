@@ -54,6 +54,8 @@ module Monzo
       response
     end
 
+    private
+
     def build_uri(path, options)
       uri = URI.join(host, path)
       uri.query = build_query(options)
