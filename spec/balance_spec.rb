@@ -44,11 +44,15 @@ describe Monzo::Balance do
         "Authorization" => "Bearer access_token",
         "User-Agent" => "Ruby" }
 
-      stub_request(:get, "https://api.monzo.com/balance?account_id=#{account_id}").
+      @stub = stub_request(:get, "https://api.monzo.com/balance?account_id=#{account_id}").
         with(headers: request_headers).
         to_return(status: 200, body: attributes.to_json, headers: {})
 
       @balance = Monzo::Balance.find(account_id)
+    end
+
+    it "has performed the request" do
+      expect(@stub).to have_been_requested
     end
 
     it "should have a balance" do

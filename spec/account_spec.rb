@@ -35,11 +35,15 @@ describe Monzo::Account do
         "User-Agent" => "Ruby"
       }
 
-      stub_request(:get, "https://api.monzo.com/accounts").
+      @stub = stub_request(:get, "https://api.monzo.com/accounts").
         with(headers: request_headers).
         to_return(status: 200, body: attributes.to_json, headers: {})
 
       @accounts = Monzo::Account.all
+    end
+
+    it "has performed the request" do
+      expect(@stub).to have_been_requested
     end
 
     it "should have an id" do

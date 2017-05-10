@@ -21,6 +21,7 @@ module Monzo
 
       response = http.request(request)
       puts response.body
+      puts response.code
       response
     end
 
@@ -37,6 +38,7 @@ module Monzo
 
       response = http.request(request)
       puts response.body
+      puts response.code
       response
     end
 
@@ -53,6 +55,7 @@ module Monzo
 
       response = http.request(request)
       puts response.body
+      puts response.code
       response
     end
 
@@ -67,6 +70,7 @@ module Monzo
 
       response = http.request(request)
       puts response.body
+      puts response.code
       response
     end
 
