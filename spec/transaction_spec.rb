@@ -96,20 +96,105 @@ describe Monzo::Transaction do
   end
 
   context ".find" do
-    it "has specs" do
-      skip "implement"
+    before :each do
+      access_token = "abc"
+      Monzo.configure(access_token)
+
+      attributes = {}
+      attributes["transaction"] = FactoryGirl.attributes_for(:transaction)
+
+      transaction_id = attributes["transaction"]["transaction_id"]
+
+      @stub = stub_request(:get, "https://api.monzo.com/transactions/#{transaction_id}").
+        with(headers: build_request_headers(access_token)).
+        to_return(status: 200, body: attributes.to_json, headers: {})
+
+      @transaction = Monzo::Transaction.find(transaction_id)
+    end
+
+    it "has performed the request" do
+      expect(@stub).to have_been_requested
+    end
+
+    it "should be an instance of transaction" do
+      expect(@transaction).to be_an_instance_of(Monzo::Transaction)
+    end
+
+    it "should have an id" do
+      expect(@transaction.id).to eql("tx_00008zIcpb1TB4aeIFXMzx")
     end
   end
 
   context ".all" do
-    it "has specs" do
-      skip "implement"
+    before :each do
+      access_token = "abc"
+      Monzo.configure(access_token)
+
+      attributes = {}
+      attributes["transactions"] = [
+        FactoryGirl.attributes_for(:transaction)
+      ]
+
+      account_id = "acc_00009237aqC8c5umZmrRdh"
+
+      @stub = stub_request(:get, "https://api.monzo.com/transactions?account_id=#{account_id}").
+        with(headers: build_request_headers(access_token)).
+        to_return(status: 200, body: attributes.to_json, headers: {})
+
+      @transactions = Monzo::Transaction.all(account_id)
+    end
+
+    it "has performed the request" do
+      expect(@stub).to have_been_requested
+    end
+
+    it "should be a list of transactions" do
+      expect(@transactions).to be_an_instance_of(Array)
+      expect(@transactions.first).to be_an_instance_of(Monzo::Transaction)
+    end
+
+    it "should have an id" do
+      expect(@transactions.first.id).to eql("tx_00008zIcpb1TB4aeIFXMzx")
     end
   end
 
   context ".create_annotation" do
-    it "has specs" do
-      skip "implement"
+    before :each do
+      access_token = "abc"
+      Monzo.configure(access_token)
+
+      attributes = {}
+      attributes["transaction"] = FactoryGirl.attributes_for(:transaction)
+
+      metadata = { :foo => "bar" }
+
+      attributes["transaction"][:metadata].merge!(metadata)
+
+      transaction_id = attributes["transaction"]["transaction_id"]
+
+      @stub = stub_request(:patch, "https://api.monzo.com/transactions/#{transaction_id}").
+        with(headers: build_request_headers(access_token)).
+        to_return(status: 200, body: attributes.to_json, headers: {})
+
+
+      @transaction = Monzo::Transaction.create_annotation(transaction_id, metadata)
     end
+
+    it "has performed the request" do
+      expect(@stub).to have_been_requested
+    end
+
+    it "should be an instance of transaction" do
+      expect(@transaction).to be_an_instance_of(Monzo::Transaction)
+    end
+
+    it "should have an id" do
+      expect(@transaction.id).to eql("tx_00008zIcpb1TB4aeIFXMzx")
+    end
+
+    it "should have added an annotation" do
+      expect(@transaction.metadata[:foo]).to eql("bar")
+    end
+
   end
 end
