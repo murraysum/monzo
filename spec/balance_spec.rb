@@ -33,19 +33,15 @@ describe Monzo::Balance do
 
   context ".find" do
     before :each do
-      Monzo.configure("access_token")
+      access_token = "abc"
+      Monzo.configure(access_token)
 
       attributes = FactoryGirl.attributes_for(:balance)
 
       account_id = "acc_123"
-      request_headers = {
-        "Accept" => "*/*",
-        "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-        "Authorization" => "Bearer access_token",
-        "User-Agent" => "Ruby" }
 
       @stub = stub_request(:get, "https://api.monzo.com/balance?account_id=#{account_id}").
-        with(headers: request_headers).
+        with(headers: build_request_headers(access_token)).
         to_return(status: 200, body: attributes.to_json, headers: {})
 
       @balance = Monzo::Balance.find(account_id)
@@ -53,6 +49,10 @@ describe Monzo::Balance do
 
     it "has performed the request" do
       expect(@stub).to have_been_requested
+    end
+
+    it "should be an instance of balance" do
+      expect(@balance).to be_an_instance_of(Monzo::Balance)
     end
 
     it "should have a balance" do
