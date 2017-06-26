@@ -21,20 +21,14 @@ describe Monzo::Webhook do
 
   context ".create" do
     before :each do
-      Monzo.configure("access_token")
+      access_token = "abc"
+      Monzo.configure(access_token)
 
       attributes = {}
       attributes["webhook"] = FactoryGirl.attributes_for(:webhook)
 
-      request_headers = {
-        "Accept" => "*/*",
-        "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-        "Authorization" => "Bearer access_token",
-        "User-Agent" => "Ruby"
-      }
-
       @stub = stub_request(:post, "https://api.monzo.com/webhooks").
-        with(headers: request_headers).
+        with(headers: build_request_headers(access_token)).
         to_return(status: 200, body: attributes.to_json, headers: {})
 
       @webhook = Monzo::Webhook.create(attributes["webhook"]["account_id"], attributes["webhook"]["url"])
@@ -42,6 +36,10 @@ describe Monzo::Webhook do
 
     it "has performed the request" do
       expect(@stub).to have_been_requested
+    end
+
+    it "should be an instance of webhook" do
+      expect(@webhook).to be_an_instance_of(Monzo::Webhook)
     end
 
     it "should have an id" do
@@ -59,22 +57,16 @@ describe Monzo::Webhook do
 
   context ".all" do
     before :each do
-      Monzo.configure("access_token")
+      access_token = "abc"
+      Monzo.configure(access_token)
 
       attributes = {}
       attributes["webhooks"] = [
         FactoryGirl.attributes_for(:webhook)
       ]
 
-      request_headers = {
-        "Accept" => "*/*",
-        "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-        "Authorization" => "Bearer access_token",
-        "User-Agent" => "Ruby"
-      }
-
       @stub = stub_request(:get, "https://api.monzo.com/webhooks?account_id=acc_000091yf79yMwNaZHhHGzp").
-        with(headers: request_headers).
+        with(headers: build_request_headers(access_token)).
         to_return(status: 200, body: attributes.to_json, headers: {})
 
       @webhooks = Monzo::Webhook.all(attributes["webhooks"].first[:account_id])
@@ -82,6 +74,11 @@ describe Monzo::Webhook do
 
     it "has performed the request" do
       expect(@stub).to have_been_requested
+    end
+
+    it "should be a list of webhooks" do
+      expect(@webhooks).to be_an_instance_of(Array)
+      expect(@webhooks.first).to be_an_instance_of(Monzo::Webhook)
     end
 
     it "should have an id" do
@@ -99,10 +96,11 @@ describe Monzo::Webhook do
 
   context ".delete" do
     before :each do
-      Monzo.configure("access_token")
+      access_token = "abc"
+      Monzo.configure(access_token)
 
       @stub = stub_request(:delete, "https://api.monzo.com/webhooks/122").
-         with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=>'Bearer access_token', 'User-Agent'=>'Ruby'}).
+         with(headers: build_request_headers(access_token)).
          to_return(status: 200, body: {}.to_json, headers: {})
 
       Monzo::Webhook.delete("122")
