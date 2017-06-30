@@ -24,7 +24,8 @@ module Monzo
         "params[body]" => params[:body],
         "url" => url
       }
-      client.post("/feed", data, {})
+      response = client.post("/feed", data, {})
+      JSON.parse(response.body, :symbolize_names => true)
     end
   end
 end

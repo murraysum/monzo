@@ -31,8 +31,30 @@ describe Monzo::FeedItem do
   end
 
   context ".create" do
-    it "has specs" do
-      skip "implement"
+    before :each do
+      access_token = "abc"
+      Monzo.configure(access_token)
+
+      attributes = {}
+      feed_item_attributes = FactoryGirl.attributes_for(:feed_item)
+
+      account_id = feed_item_attributes[:account_id]
+      params = feed_item_attributes[:params]
+      url = feed_item_attributes[:url]
+
+      @stub = stub_request(:post, "https://api.monzo.com/feed").
+        with(headers: build_request_headers(access_token)).
+        to_return(status: 200, body: {}.to_json, headers: {})
+
+      @feed_item = Monzo::FeedItem.create(account_id, "basic", params, url)
+    end
+
+    it "has performed the request" do
+      expect(@stub).to have_been_requested
+    end
+
+    it "should be an instance of a Hash" do
+      expect(@feed_item).to be_an_instance_of(Hash)
     end
   end
 end

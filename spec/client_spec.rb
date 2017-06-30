@@ -13,7 +13,6 @@ describe Monzo::Client do
     end
   end
 
-
   context "#get" do
     before :each do
       access_token = "abc"
