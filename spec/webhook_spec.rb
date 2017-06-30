@@ -24,14 +24,26 @@ describe Monzo::Webhook do
       access_token = "abc"
       Monzo.configure(access_token)
 
-      attributes = {}
-      attributes["webhook"] = FactoryGirl.attributes_for(:webhook)
+      attributes = FactoryGirl.attributes_for(:webhook)
+      account_id = attributes[:account_id]
+      url = attributes[:url]
 
-      @stub = stub_request(:post, "https://api.monzo.com/webhooks").
-        with(headers: build_request_headers(access_token)).
-        to_return(status: 200, body: attributes.to_json, headers: {})
+      @stub = stub_request(:post, "https://api.monzo.com/webhooks")
+      @stub.with({
+        headers: build_request_headers(access_token),
+        body: {
+          :account_id => account_id,
+          :url => url
+        }
+      })
+      @stub.to_return({
+        status: 200,
+        body: {
+          :webhook => attributes
+        }.to_json
+      })
 
-      @webhook = Monzo::Webhook.create(attributes["webhook"]["account_id"], attributes["webhook"]["url"])
+      @webhook = Monzo::Webhook.create(account_id, url)
     end
 
     it "has performed the request" do
@@ -60,16 +72,19 @@ describe Monzo::Webhook do
       access_token = "abc"
       Monzo.configure(access_token)
 
-      attributes = {}
-      attributes["webhooks"] = [
-        FactoryGirl.attributes_for(:webhook)
-      ]
+      attributes = FactoryGirl.attributes_for(:webhook)
+      account_id = attributes[:account_id]
 
-      @stub = stub_request(:get, "https://api.monzo.com/webhooks?account_id=acc_000091yf79yMwNaZHhHGzp").
-        with(headers: build_request_headers(access_token)).
-        to_return(status: 200, body: attributes.to_json, headers: {})
+      @stub = stub_request(:get, "https://api.monzo.com/webhooks?account_id=acc_000091yf79yMwNaZHhHGzp")
+      @stub.with(headers: build_request_headers(access_token))
+      @stub.to_return({
+        status: 200,
+        body: {
+          :webhooks => [attributes]
+        }.to_json
+      })
 
-      @webhooks = Monzo::Webhook.all(attributes["webhooks"].first[:account_id])
+      @webhooks = Monzo::Webhook.all(account_id)
     end
 
     it "has performed the request" do
@@ -99,11 +114,13 @@ describe Monzo::Webhook do
       access_token = "abc"
       Monzo.configure(access_token)
 
-      @stub = stub_request(:delete, "https://api.monzo.com/webhooks/122").
-         with(headers: build_request_headers(access_token)).
-         to_return(status: 200, body: {}.to_json, headers: {})
+      webhook_id = FactoryGirl.attributes_for(:webhook)[:id]
 
-      Monzo::Webhook.delete("122")
+      @stub = stub_request(:delete, "https://api.monzo.com/webhooks/#{webhook_id}")
+      @stub.with(headers: build_request_headers(access_token))
+      @stub.to_return(status: 200, body: {}.to_json)
+
+      Monzo::Webhook.delete(webhook_id)
     end
 
     it "has performed the request" do
