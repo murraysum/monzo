@@ -35,16 +35,18 @@ describe Monzo::FeedItem do
       access_token = "abc"
       Monzo.configure(access_token)
 
-      attributes = {}
-      feed_item_attributes = FactoryGirl.attributes_for(:feed_item)
+      attributes = FactoryGirl.attributes_for(:feed_item)
 
-      account_id = feed_item_attributes[:account_id]
-      params = feed_item_attributes[:params]
-      url = feed_item_attributes[:url]
+      account_id = attributes[:account_id]
+      params = attributes[:params]
+      url = attributes[:url]
 
-      @stub = stub_request(:post, "https://api.monzo.com/feed").
-        with(headers: build_request_headers(access_token)).
-        to_return(status: 200, body: {}.to_json, headers: {})
+      @stub = stub_request(:post, "https://api.monzo.com/feed")
+      @stub.with({
+        headers: build_request_headers(access_token),
+        body: attributes
+      })
+      @stub.to_return(status: 200, body: {}.to_json, headers: {})
 
       @feed_item = Monzo::FeedItem.create(account_id, "basic", params, url)
     end
