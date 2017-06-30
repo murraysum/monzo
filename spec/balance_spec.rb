@@ -40,9 +40,9 @@ describe Monzo::Balance do
 
       account_id = "acc_123"
 
-      @stub = stub_request(:get, "https://api.monzo.com/balance?account_id=#{account_id}").
-        with(headers: build_request_headers(access_token)).
-        to_return(status: 200, body: attributes.to_json, headers: {})
+      @stub = stub_request(:get, "https://api.monzo.com/balance?account_id=#{account_id}")
+      @stub.with(headers: build_request_headers(access_token))
+      @stub.to_return(status: 200, body: attributes.to_json, headers: {})
 
       @balance = Monzo::Balance.find(account_id)
     end
