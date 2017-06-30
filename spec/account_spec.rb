@@ -25,13 +25,11 @@ describe Monzo::Account do
       Monzo.configure(access_token)
 
       attributes = {}
-      attributes["accounts"] = [
-        FactoryGirl.attributes_for(:account)
-      ]
+      attributes["accounts"] = [FactoryGirl.attributes_for(:account)]
 
-      @stub = stub_request(:get, "https://api.monzo.com/accounts").
-        with(headers: build_request_headers(access_token)).
-        to_return(status: 200, body: attributes.to_json, headers: {})
+      @stub = stub_request(:get, "https://api.monzo.com/accounts")
+      @stub.with(headers: build_request_headers(access_token))
+      @stub.to_return(status: 200, body: attributes.to_json, headers: {})
 
       @accounts = Monzo::Account.all
     end
