@@ -120,11 +120,15 @@ describe Monzo::Webhook do
       @stub.with(headers: build_request_headers(access_token))
       @stub.to_return(status: 200, body: {}.to_json)
 
-      Monzo::Webhook.delete(webhook_id)
+      @response_body = Monzo::Webhook.delete(webhook_id)
     end
 
     it "has performed the request" do
       expect(@stub).to have_been_requested
+    end
+
+    it "should be an instance of a Hash" do
+      expect(@response_body).to be_an_instance_of(Hash)
     end
   end
 end
