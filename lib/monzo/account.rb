@@ -12,9 +12,9 @@ module Monzo
     def self.all
       client = Monzo::client
       response = client.get("/accounts")
-      json = JSON.parse(response.body, :symbolize_names => true)
+      parsed_response = JSON.parse(response.body, :symbolize_names => true)
 
-      json[:accounts].map do |item|
+      parsed_response[:accounts].map do |item|
         Monzo::Account.new(item)
       end
     end

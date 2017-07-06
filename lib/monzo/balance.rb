@@ -16,9 +16,9 @@ module Monzo
     def self.find(account_id)
       client = Monzo::client
       response = client.get("/balance", {:account_id => account_id})
-      json = JSON.parse(response.body, :symbolize_names => true)
+      parsed_response = JSON.parse(response.body, :symbolize_names => true)
 
-      Monzo::Balance.new(json)
+      Monzo::Balance.new(parsed_response)
     end
 
   end

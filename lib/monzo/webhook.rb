@@ -18,8 +18,8 @@ module Monzo
       }
       response = client.post("/webhooks", data, {})
 
-      json = JSON.parse(response.body, :symbolize_names => true)
-      Monzo::Webhook.new(json[:webhook])
+      parsed_response = JSON.parse(response.body, :symbolize_names => true)
+      Monzo::Webhook.new(parsed_response[:webhook])
     end
 
     def self.all(account_id)
@@ -27,9 +27,9 @@ module Monzo
 
       response = client.get("/webhooks", :account_id => account_id)
 
-      json = JSON.parse(response.body, :symbolize_names => true)
+      parsed_response = JSON.parse(response.body, :symbolize_names => true)
 
-      json[:webhooks].map do |item|
+      parsed_response[:webhooks].map do |item|
         Monzo::Webhook.new(item)
       end
     end
@@ -38,7 +38,7 @@ module Monzo
       client = Monzo.client
 
       response = client.delete("/webhooks/#{webhook_id}")
-      json = JSON.parse(response.body, :symbolize_names => true)
+      JSON.parse(response.body, :symbolize_names => true)
     end
   end
 end
