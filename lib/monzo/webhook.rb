@@ -38,6 +38,7 @@ module Monzo
       client = Monzo.client
 
       response = client.delete("/webhooks/#{webhook_id}")
+      json = JSON.parse(response.body, :symbolize_names => true)
     end
   end
 end
