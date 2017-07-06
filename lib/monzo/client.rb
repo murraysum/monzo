@@ -20,9 +20,6 @@ module Monzo
       request["Authorization"] = "Bearer #{access_token}"
 
       response = http.request(request)
-      puts response.body
-      puts response.code
-      response
     end
 
     def post(path, data, options = {})
@@ -37,9 +34,6 @@ module Monzo
       request.set_form_data(data)
 
       response = http.request(request)
-      puts response.body
-      puts response.code
-      response
     end
 
     def patch(path, data, options = {})
@@ -54,9 +48,6 @@ module Monzo
       request.set_form_data(data)
 
       response = http.request(request)
-      puts response.body
-      puts response.code
-      response
     end
 
     def delete(path, options = {})
@@ -69,9 +60,6 @@ module Monzo
       request["Authorization"] = "Bearer #{access_token}"
 
       response = http.request(request)
-      puts response.body
-      puts response.code
-      response
     end
 
     private
