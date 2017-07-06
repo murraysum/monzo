@@ -48,7 +48,7 @@ describe Monzo::FeedItem do
       })
       @stub.to_return(status: 200, body: {}.to_json, headers: {})
 
-      @feed_item = Monzo::FeedItem.create(account_id, "basic", params, url)
+      @response_body = Monzo::FeedItem.create(account_id, "basic", params, url)
     end
 
     it "has performed the request" do
@@ -56,7 +56,7 @@ describe Monzo::FeedItem do
     end
 
     it "should be an instance of a Hash" do
-      expect(@feed_item).to be_an_instance_of(Hash)
+      expect(@response_body).to be_an_instance_of(Hash)
     end
   end
 end
