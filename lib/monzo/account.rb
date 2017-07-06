@@ -10,7 +10,7 @@ module Monzo
     end
 
     def self.all
-      client = Monzo::client
+      client = Monzo.client
       response = client.get("/accounts")
       parsed_response = JSON.parse(response.body, :symbolize_names => true)
 
