@@ -105,7 +105,7 @@ describe Monzo::Client do
 
       client = Monzo::Client.new(access_token)
 
-      @response = client.delete("/test/", :foo => "bar")
+      @response = client.delete("/test/")
     end
 
     it "has performed the request" do

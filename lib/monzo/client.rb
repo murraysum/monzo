@@ -13,61 +13,57 @@ module Monzo
     def get(path, options = {})
       uri = build_uri(path, options)
 
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-
       request = Net::HTTP::Get.new(uri.request_uri)
-      request["Authorization"] = "Bearer #{access_token}"
+      set_authorisation_header(request)
 
-      response = http.request(request)
+      response = https_client(uri).request(request)
     end
 
     def post(path, data, options = {})
-      uri = build_uri(path, options = {})
-
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
+      uri = build_uri(path, options)
 
       request = Net::HTTP::Post.new(uri.request_uri)
-      request["Authorization"] = "Bearer #{access_token}"
-
+      set_authorisation_header(request)
       request.set_form_data(data)
 
-      response = http.request(request)
+      response = https_client(uri).request(request)
     end
 
     def patch(path, data, options = {})
-      uri = build_uri(path, options = {})
-
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
+      uri = build_uri(path, options)
 
       request = Net::HTTP::Patch.new(uri.request_uri)
-      request["Authorization"] = "Bearer #{access_token}"
-
+      set_authorisation_header(request)
       request.set_form_data(data)
 
-      response = http.request(request)
+      response = https_client(uri).request(request)
     end
 
-    def delete(path, options = {})
-      uri = build_uri(path, options = {})
-
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
+    def delete(path)
+      uri = build_uri(path)
 
       request = Net::HTTP::Delete.new(uri.request_uri)
-      request["Authorization"] = "Bearer #{access_token}"
+      set_authorisation_header(request)
 
-      response = http.request(request)
+      response = https_client(uri).request(request)
     end
 
     private
 
-    def build_uri(path, options)
+    def build_uri(path, options = {})
       uri = URI.join(host, path)
       uri.query = build_query(options)
       uri
+    end
+
+    def https_client(uri)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      http
+    end
+
+    def set_authorisation_header(request)
+      request["Authorization"] = "Bearer #{access_token}"
     end
 
     def build_query(options)
