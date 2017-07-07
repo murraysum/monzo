@@ -1,6 +1,6 @@
 # Monzo
 
-A gem providing a simple interface to make requests to the Monzo API. Full API documentation can be found at [https://monzo.com/docs/](https://monzo.com/docs/).
+A simple interface to make requests to the Monzo API. Full API documentation can be found at [https://monzo.com/docs/](https://monzo.com/docs/).
 
 Before using this gem please ensure you read [Monzo's update on their API](https://monzo.com/blog/2017/05/11/api-update/) ensuring you understand Monzo's development plans and are happy that they are likely to introduce backwards-incompatible changes to the API when developing the new Current Account functionality.
 
