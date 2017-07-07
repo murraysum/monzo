@@ -9,7 +9,7 @@ TODO: Delete this and the text above, and describe your gem
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'monzo'
+gem "monzo"
 ```
 
 And then execute:
@@ -22,7 +22,74 @@ Or install it yourself as:
 
 ## Usage
 
+
+### Introduction
+
 TODO: Write usage instructions here
+
+### Accounts
+
+Accounts represent a store of funds, and have a list of transactions.
+
+```ruby
+# Find all Monzo Accounts
+Monzo::Account.all
+```
+
+### Balance
+
+Retrieve information about an account’s balance.
+
+```ruby
+# Find the balance of the given account id
+Monzo::Balance.find(account_id)
+```
+
+### Transactions
+
+Transactions are movements of funds into or out of an account. Negative transactions represent debits (ie. spending money) and positive transactions represent credits (ie. receiving money).
+
+```ruby
+# Find a transaction with the given transaction id.
+Monzo::Transaction.find(transaction_id)
+
+# Find all the transactions for a given account id.
+Monzo::Transaction.all(account_id)
+
+# Create an annotation for a given transaction id.
+metadata = { :foo => "bar" }
+Monzo::Transaction.create_annotation(transaction_id, metadata)
+```
+
+### Feed Items
+
+The Monzo app is organised around the feed – a reverse-chronological stream of events. Transactions are one such feed item, and your application can create its own feed items to surface relevant information to the user.
+
+```ruby
+# Create a feed item on a user's feed.
+feed_item_type = "basic"
+feed_item_params = {
+  :title => "Hello World",
+  :image_url => "https://www.example.com/image.png"
+}
+url = "https://www.example.com"
+Monzo::FeedItem.create(account_id, feed_item_type, feed_item_params, url)
+```
+
+### Webhooks
+
+Webhooks allow your application to receive real-time, push notification of events in an account.
+
+```ruby
+# Create a webhook for the given account id.
+Monzo::Webhook.create(account_id, "https://example.com")
+
+# Find all webhooks for a given account id.
+Monzo::Webhook.all(account_id)
+
+# Delete a webhook.
+Monzo::Webhook.delete(webhook_id)
+```
 
 ## Development
 
@@ -32,10 +99,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/monzo. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/murraysum/monzo. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
