@@ -1,8 +1,8 @@
 # Monzo
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/monzo`. To experiment with that code, run `bin/console` for an interactive prompt.
+A gem providing a simple interface to make requests to the Monzo API. Full API documentation can be found at [https://monzo.com/docs/](https://monzo.com/docs/).
 
-TODO: Delete this and the text above, and describe your gem
+Before using this gem please ensure you read [Monzo's update on their API](https://monzo.com/blog/2017/05/11/api-update/) ensuring you understand Monzo's development plans and are happy that they are likely to introduce backwards-incompatible changes to the API when developing the new Current Account functionality.
 
 ## Installation
 
@@ -32,7 +32,7 @@ The Monzo API implements OAuth 2.0 to allow users to log in to applications with
 
 Before you begin, you will need to create a client in the developer tools. To understand how to acquire an access token see the [Monzo API documentation](https://monzo.com/docs/#authentication)
 
-Once you have acquired an access token you can configure the library to use it. Firstly require the library:
+Once you have acquired an access token you can configure the gem to use it. Firstly require the gem:
 
 ```ruby
 require "monzo"
