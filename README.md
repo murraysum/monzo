@@ -22,10 +22,29 @@ Or install it yourself as:
 
 ## Usage
 
-
 ### Introduction
 
-TODO: Write usage instructions here
+The Monzo API implements OAuth 2.0 to allow users to log in to applications without exposing their credentials. The process involves several steps:
+
+1. Acquire an access token, and optionally a refresh token
+2. Use the access token to make authenticated requests
+3. If you were issued a refresh token: refresh the access token when it expires
+
+Before you begin, you will need to create a client in the developer tools. To understand how to acquire an access token see the [Monzo API documentation](https://monzo.com/docs/#authentication)
+
+Once you have acquired an access token you can configure the library to use it. Firstly require the library:
+
+```ruby
+require "monzo"
+```
+
+Then configure your access token:
+
+```ruby
+Monzo.configure("access_token")
+```
+
+After you have set your access token you can now make requests.
 
 ### Accounts
 
