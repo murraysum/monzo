@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Murray Summers"]
   spec.email         = ["murray.sum@gmail.com"]
 
-  spec.summary       = "Ruby Library for the Monzo API"
+  spec.summary       = "A simple interface to make requests to the Monzo API"
   spec.homepage      = "https://github.com/murraysum/monzo"
   spec.license       = "MIT"
 
