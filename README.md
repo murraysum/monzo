@@ -29,7 +29,7 @@ TODO: Write usage instructions here
 
 ### Accounts
 
-Accounts represent a store of funds, and have a list of transactions.
+Accounts represent a store of funds, and have a list of transactions. [Docs](https://monzo.com/docs/#accounts)
 
 ```ruby
 # Find all Monzo Accounts
@@ -38,7 +38,7 @@ Monzo::Account.all
 
 ### Balance
 
-Retrieve information about an account’s balance.
+Retrieve information about an account’s balance. [Docs](https://monzo.com/docs/#balance)
 
 ```ruby
 # Find the balance of the given account id
@@ -47,7 +47,7 @@ Monzo::Balance.find(account_id)
 
 ### Transactions
 
-Transactions are movements of funds into or out of an account. Negative transactions represent debits (ie. spending money) and positive transactions represent credits (ie. receiving money).
+Transactions are movements of funds into or out of an account. Negative transactions represent debits (ie. spending money) and positive transactions represent credits (ie. receiving money). [Docs](https://monzo.com/docs/#transactions)
 
 ```ruby
 # Find a transaction with the given transaction id.
@@ -63,7 +63,7 @@ Monzo::Transaction.create_annotation(transaction_id, metadata)
 
 ### Feed Items
 
-The Monzo app is organised around the feed – a reverse-chronological stream of events. Transactions are one such feed item, and your application can create its own feed items to surface relevant information to the user.
+The Monzo app is organised around the feed – a reverse-chronological stream of events. Transactions are one such feed item, and your application can create its own feed items to surface relevant information to the user. [Docs](https://monzo.com/docs/#feed-items)
 
 ```ruby
 # Create a feed item on a user's feed.
@@ -78,7 +78,7 @@ Monzo::FeedItem.create(account_id, feed_item_type, feed_item_params, url)
 
 ### Webhooks
 
-Webhooks allow your application to receive real-time, push notification of events in an account.
+Webhooks allow your application to receive real-time, push notification of events in an account. [Docs](https://monzo.com/docs/#webhooks)
 
 ```ruby
 # Create a webhook for the given account id.
