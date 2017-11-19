@@ -58,8 +58,9 @@ module Monzo
     # account_id - The account id to retrieve transactions from.
     #
     # Returns an Array of Monzo::Transaction.
-    def self.all(account_id)
-      response = Monzo.client.get("/transactions", :account_id => account_id)
+    def self.all(account_id, options = {})
+      options[:account_id] = account_id
+      response = Monzo.client.get("/transactions", options)
       parsed_response = JSON.parse(response.body, :symbolize_names => true)
 
       parsed_response[:transactions].map do |item|
