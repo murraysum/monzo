@@ -55,6 +55,16 @@ Accounts represent a store of funds, and have a list of transactions. [Docs](htt
 Monzo::Account.all
 ```
 
+### Pots
+
+A Pot is a place to keep some money separate from your main spending account.
+[Docs](https://monzo.com/docs/#pots)
+
+```ruby
+# Find all Monzo Pots
+Monzo::Pot.all
+```
+
 ### Balance
 
 Retrieve information about an account’s balance. [Docs](https://monzo.com/docs/#balance)
