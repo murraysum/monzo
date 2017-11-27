@@ -58,6 +58,7 @@ Monzo::Account.all
 ### Pots
 
 A Pot is a place to keep some money separate from your main spending account.
+[Docs](https://monzo.com/docs/#pots)
 
 ```ruby
 # Find all Monzo Pots
