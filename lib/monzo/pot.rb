@@ -95,7 +95,7 @@ module Monzo
     def parse_response(response)
       parsed_response = JSON.parse(response.body, :symbolize_names => true)
       if response.code.to_i.between?(400,599)
-        raise MonzoAPIError, "#{parsed_response.code}: #{parsed_response.error}"
+        raise Monzo::MonzoAPIError, "#{parsed_response.code}: #{parsed_response.error}"
       end
       parsed_response
     end
