@@ -43,7 +43,7 @@ describe Monzo::Pot do
       attributes = {}
       attributes["pots"] = [FactoryGirl.attributes_for(:pot)]
 
-      @stub = stub_request(:get, "https://api.monzo.com/pots/listV1")
+      @stub = stub_request(:get, "https://api.monzo.com/pots")
       @stub.with(headers: build_request_headers(access_token))
       @stub.to_return(status: 200, body: attributes.to_json, headers: {})
 
