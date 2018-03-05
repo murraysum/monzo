@@ -1,6 +1,7 @@
 require "json"
 
 require "monzo/version"
+require "monzo/errors"
 require "monzo/account"
 require "monzo/balance"
 require "monzo/transaction"
