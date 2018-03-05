@@ -27,8 +27,7 @@ module Monzo
     #
     # Returns An Array of Monzo::Pot
     def self.all
-      client = Monzo.client
-      response = client.get("/pots")
+      response = Monzo.client.get("/pots")
       parsed_response = JSON.parse(response.body, :symbolize_names => true)
 
       parsed_response[:pots].map do |item|
