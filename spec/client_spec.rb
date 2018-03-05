@@ -94,6 +94,33 @@ describe Monzo::Client do
     end
   end
 
+  context "#put" do
+    before :each do
+      access_token = "abc"
+
+      @body = {test: "body"}.to_json
+      @stub = stub_request(:put, "https://api.monzo.com/test/").
+        with(headers: build_request_headers(access_token)).
+        to_return(status: 200, body: @body , headers: {})
+
+      client = Monzo::Client.new(access_token)
+
+      @response = client.put("/test/", :foo => "bar")
+    end
+
+    it "has performed the request" do
+      expect(@stub).to have_been_requested
+    end
+
+    it "should have a response code" do
+      expect(@response.code).to eql("200")
+    end
+
+    it "should have a response body" do
+      expect(@response.body).to eql(@body)
+    end
+  end
+
   context "#delete" do
     before :each do
       access_token = "abc"
