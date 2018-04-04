@@ -84,6 +84,13 @@ pot.withdraw(100, account_id)
 pot.balance  #=> eg. 4900
 ```
 
+The `deposit!` and `withdrawl!` methods accept an optional `dedupe_id` parameter. It's used to prevent duplicate transactions and should remain static between retries to ensure only one deposit/withdrawl is created. If you don't provide one, a random string will be generated for each deposit/withdrawl. You should **always** provide this if there is a chance the transaction will be retried.
+
+```ruby
+dedupe_id = 'SomeniqueDeDuplicationString' # Store this and use it for retries.
+pot.deposit!(100, account_id, dedupe_id)
+```
+
 ### Balance
 
 Retrieve information about an account’s balance. [Docs](https://monzo.com/docs/#balance)
