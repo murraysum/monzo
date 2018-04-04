@@ -91,11 +91,11 @@ module Monzo
     #
     # response - A Net::HTTPResponse provided by Monzo::client
     #
-    # Returns a hash representing the response or raises a MonzoAPIError
+    # Returns a hash representing the response or raises a Monzo::APIError
     def parse_response(response)
       parsed_response = JSON.parse(response.body, :symbolize_names => true)
       if response.code.to_i.between?(400,599)
-        raise Monzo::MonzoAPIError, "#{parsed_response[:code]}: #{parsed_response[:error]}"
+        raise Monzo::APIError, "#{parsed_response[:code]}: #{parsed_response[:error]}"
       end
       parsed_response
     end

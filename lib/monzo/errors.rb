@@ -2,5 +2,5 @@
 
 module Monzo
   # Internal: Exception to raise on reciept of API error.
-  MonzoAPIError = Class.new(StandardError)
+  APIError = Class.new(StandardError)
 end
