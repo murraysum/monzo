@@ -89,7 +89,7 @@ module Monzo
 
     # Private: Parse the API response
     #
-    # response - A Net::HTTPResponse provided by Monzo::client
+    # response - A Net::HTTPResponse provided by Monzo::Client
     #
     # Returns a hash representing the response or raises a Monzo::APIError
     def parse_response(response)
