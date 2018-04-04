@@ -94,9 +94,9 @@ describe Monzo::Pot do
       Monzo.configure(access_token)
 
       attributes = {}
-      attributes["pot"] = FactoryGirl.attributes_for(:pot)
+      attributes = FactoryGirl.attributes_for(:pot)
 
-      pot_id = attributes["pot"]["id"]
+      pot_id = attributes["id"]
 
       @stub = stub_request(:get, "https://api.monzo.com/pots/#{pot_id}").
         with(headers: build_request_headers(access_token)).

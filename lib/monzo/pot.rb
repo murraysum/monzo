@@ -43,8 +43,7 @@ module Monzo
     def self.find(pot_id)
       response = Monzo.client.get("/pots/#{pot_id}")
       parsed_response = JSON.parse(response.body, :symbolize_names => true)
-
-      Monzo::Pot.new(parsed_response[:pot])
+      Monzo::Pot.new(parsed_response)
     end
 
     # Public: Deposit Money in a pot
