@@ -65,14 +65,14 @@ A Pot is a place to keep some money separate from your main spending account.
 Monzo::Pot.all
 
 # Find a pot with the given pot id.
-Monzo::Pots.find(pot_id)
+Monzo::Pot.find(pot_id)
 
 # Move money into a pot
 account_id = Monzo::Account.all.last.id # The account to withdraw from
 pot = Monzo::Pot.all.first # Get the first pot
 pot.balance #=> eg. 5000
 
-pot.deposit(100, account_id)
+pot.deposit!(100, account_id)
 pot.balance  #=> eg. 5100
 
 # Move money out of a pot
@@ -80,7 +80,7 @@ account_id = Monzo::Account.all.last.id
 pot = Monzo::Pot.all.first
 pot.balance #=> eg. 5000
 
-pot.withdraw(100, account_id)
+pot.withdraw!(100, account_id)
 pot.balance  #=> eg. 4900
 ```
 
