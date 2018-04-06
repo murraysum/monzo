@@ -63,6 +63,32 @@ A Pot is a place to keep some money separate from your main spending account.
 ```ruby
 # Find all Monzo Pots
 Monzo::Pot.all
+
+# Find a pot with the given pot id.
+Monzo::Pot.find(pot_id)
+
+# Move money into a pot
+account_id = Monzo::Account.all.last.id # The account to withdraw from
+pot = Monzo::Pot.all.first # Get the first pot
+pot.balance #=> eg. 5000
+
+pot.deposit!(100, account_id)
+pot.balance  #=> eg. 5100
+
+# Move money out of a pot
+account_id = Monzo::Account.all.last.id
+pot = Monzo::Pot.all.first
+pot.balance #=> eg. 5000
+
+pot.withdraw!(100, account_id)
+pot.balance  #=> eg. 4900
+```
+
+The `deposit!` and `withdrawl!` methods accept an optional `dedupe_id` parameter. It's used to prevent duplicate transactions and should remain static between retries to ensure only one deposit/withdrawl is created. If you don't provide one, a random string will be generated for each deposit/withdrawl. You should **always** provide this if there is a chance the transaction will be retried.
+
+```ruby
+dedupe_id = 'SomeniqueDeDuplicationString' # Store this and use it for retries.
+pot.deposit!(100, account_id, dedupe_id)
 ```
 
 ### Balance

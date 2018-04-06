@@ -65,6 +65,23 @@ module Monzo
       response = https_client(uri).request(request)
     end
 
+    # Internal: Perform a PUT request to the Monzo API.
+    #
+    # path - The URI path to request.
+    # data - The form data to send with the request.
+    # options - A Hash of query options to include in the URI.
+    #
+    # Returns a HTTP response.
+    def put(path, data, options = {})
+      uri = build_uri(path, options)
+
+      request = Net::HTTP::Put.new(uri.request_uri)
+      set_authorisation_header(request)
+      request.set_form_data(data)
+
+      response = https_client(uri).request(request)
+    end
+
     # Internal: Perform a DELETE request to the Monzo API.
     #
     # path - The URI path to request.
